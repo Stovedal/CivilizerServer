@@ -9,7 +9,7 @@ module.exports = (app, connection ) => {
       "SELECT name, id, imgUrl FROM users",
       (err, rows, fields) => {
         if(err){
-          res.json({ sucess: false })
+          res.json({ success: false })
         } else {
           res.json({
             success: true,
@@ -29,7 +29,7 @@ module.exports = (app, connection ) => {
       [userid, req.body.name, passwordHash, req.body.imgUrl],
       (err, rows, fields) => {
         if(err){
-          res.json({ sucess: false })
+          res.json({ success: false })
         } else {
           let user = {
             id: userid,

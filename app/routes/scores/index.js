@@ -10,9 +10,12 @@ module.exports = (app, connection ) => {
         [req.query.userid],
         (err, rows, fields) => {
           if(err){
-            res.send('FAILURE')
+            res.json({ success: false })
           } else {
-            res.json(rows);
+            res.json({
+              success: true,
+              scores: rows,
+            });
           }
         }
       )

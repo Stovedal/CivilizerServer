@@ -9,9 +9,12 @@ module.exports = (app, connection ) => {
       "SELECT * FROM civilizations",
       (err, rows, fields) => {
         if(err){
-          res.send('FAILURE')
+          res.json({ success: false })
         } else {
-          res.json(rows);
+          res.json({
+            success: true,
+            civilizations: rows,
+          });
         }
       }
     )
