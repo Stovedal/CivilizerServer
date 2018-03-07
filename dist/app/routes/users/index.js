@@ -1,0 +1,43 @@
+'use strict';
+
+var _v = require('uuid/v4');
+
+var _v2 = _interopRequireDefault(_v);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var bcrypt = require('bcrypt-nodejs');
+
+module.exports = function (app, connection) {
+
+  //Get all users
+  app.get('/users', function (req, res) {
+    connection.query("SELECT name, id, imgUrl FROM users", function (err, rows, fields) {
+      if (err) {
+        res.send('FAILURE');
+      } else {
+        res.json(rows);
+      }
+    });
+  });
+
+  //Add new user
+  app.post('/users', function (req, res) {
+    var userid = (0, _v2.default)();
+    var passwordHash = bcrypt.hashSync(req.body.password);
+    connection.query("INSERT INTO users (id, name, password, imgUrl) VALUES (?,?,?,?)", [userid, req.body.name, passwordHash, req.body.imgUrl], function (err, rows, fields) {
+      if (err) {
+        res.send('FAILURE');
+      } else {
+        var user = {
+          id: userid,
+          name: req.body.name
+        };
+        res.json({
+          user: user,
+          status: 'SUCCESS'
+        });
+      }
+    });
+  });
+};
