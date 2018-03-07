@@ -78,7 +78,10 @@ module.exports = (app, connection ) => {
                 result.sort((e1,e2)=>{
                   return e1.score < e2.score
                 })
-                res.json(result)
+                res.json({
+                  success: true,
+                  scores: result,
+                })
               }
             }
           )
@@ -86,6 +89,7 @@ module.exports = (app, connection ) => {
       }
     )
   })
+
 }
 
 const averageScore = (scoreArray) => {

@@ -67,7 +67,10 @@ module.exports = function (app, connection) {
             result.sort(function (e1, e2) {
               return e1.score < e2.score;
             });
-            res.json(result);
+            res.json({
+              success: true,
+              scores: result
+            });
           }
         });
       }

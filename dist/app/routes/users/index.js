@@ -32,7 +32,7 @@ module.exports = function (app, connection) {
       } else {
         res.json({
           success: true,
-          users: rows
+          user: rows
         });
       }
     });

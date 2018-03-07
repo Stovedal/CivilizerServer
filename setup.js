@@ -52,16 +52,10 @@ const setupTables = function(){
     password : 'root',
     database : DBName,
   })
-  connection.query("CREATE TABLE scores( gameid varchar(255), userid varchar(255), civid varchar(255), score int , timestamp varchar(255))", function(error, rows, fields){
-    if(error){
-      console.log(error);
-    } else {
-      console.log("Setup scores-table");
-    }
-  })
 
+  //,  FOREIGN KEY(civid) REFERENCES civilizations(id))
   connection.query(
-    "CREATE TABLE users( id varchar(255), name varchar(255), password varchar(255), imgUrl varchar(255) )",
+    "CREATE TABLE users( id varchar(255) NOT NULL, name varchar(255) NOT NULL, password varchar(255) NOT NULL, imgUrl varchar(255), PRIMARY KEY (id) )",
     function(error, rows, fields){
       if(error){
         console.log(error);
@@ -84,7 +78,7 @@ const setupTables = function(){
       }
   })
 
-  connection.query("CREATE TABLE civilizations( id varchar(255), civilization varchar(255), leader varchar(255) )", function(error, rows, fields){
+  connection.query("CREATE TABLE civilizations( id varchar(255) NOT NULL, civilization varchar(255) NOT NULL, leader varchar(255) , PRIMARY KEY (id) )", function(error, rows, fields){
     if(error){
       console.log(error);
     } else {
@@ -101,4 +95,5 @@ const setupTables = function(){
       })
     }
   })
+
 }
