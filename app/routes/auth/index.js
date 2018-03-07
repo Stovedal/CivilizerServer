@@ -38,9 +38,7 @@ module.exports = (app, connection ) => {
       } else {
         res.json({success: false, error:err})
       }
-
     })
-
   })
 
 }

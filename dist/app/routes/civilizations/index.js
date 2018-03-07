@@ -12,9 +12,12 @@ module.exports = function (app, connection) {
   app.get('/civilizations', function (req, res) {
     connection.query("SELECT * FROM civilizations", function (err, rows, fields) {
       if (err) {
-        res.send('FAILURE');
+        res.json({ success: false });
       } else {
-        res.json(rows);
+        res.json({
+          success: true,
+          civilizations: rows
+        });
       }
     });
   });

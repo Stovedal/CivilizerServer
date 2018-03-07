@@ -20,6 +20,24 @@ module.exports = (app, connection ) => {
     )
   })
 
+  //Get specific user
+  app.get('/users/id', (req,res) => {
+    connection.query(
+      "SELECT name, id, imgUrl FROM users WHERE id=?",
+      [req.query.id],
+      (err, rows, fields) => {
+        if(err){
+          res.json({ success: false })
+        } else {
+          res.json({
+            success: true,
+            user: rows
+          });
+        }
+      }
+    )
+  })
+
   //Add new user
   app.post('/users', (req,res) => {
     let userid = uuidv4()
@@ -34,6 +52,7 @@ module.exports = (app, connection ) => {
           let user = {
             id: userid,
             name: req.body.name,
+            imgUrl: req.body.imgUrl,
           }
           res.json({
             user,

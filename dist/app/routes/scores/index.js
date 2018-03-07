@@ -13,9 +13,12 @@ module.exports = function (app, connection) {
     if (req.query.userid) {
       connection.query("SELECT * FROM scores WHERE userid=?", [req.query.userid], function (err, rows, fields) {
         if (err) {
-          res.send('FAILURE');
+          res.json({ success: false });
         } else {
-          res.json(rows);
+          res.json({
+            success: true,
+            scores: rows
+          });
         }
       });
     } else if (req.query.gameid) {

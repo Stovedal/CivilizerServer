@@ -14,9 +14,26 @@ module.exports = function (app, connection) {
   app.get('/users', function (req, res) {
     connection.query("SELECT name, id, imgUrl FROM users", function (err, rows, fields) {
       if (err) {
-        res.send('FAILURE');
+        res.json({ success: false });
       } else {
-        res.json(rows);
+        res.json({
+          success: true,
+          users: rows
+        });
+      }
+    });
+  });
+
+  //Get specific user
+  app.get('/users/id', function (req, res) {
+    connection.query("SELECT name, id, imgUrl FROM users WHERE id=?", [req.query.id], function (err, rows, fields) {
+      if (err) {
+        res.json({ success: false });
+      } else {
+        res.json({
+          success: true,
+          users: rows
+        });
       }
     });
   });
@@ -27,15 +44,16 @@ module.exports = function (app, connection) {
     var passwordHash = bcrypt.hashSync(req.body.password);
     connection.query("INSERT INTO users (id, name, password, imgUrl) VALUES (?,?,?,?)", [userid, req.body.name, passwordHash, req.body.imgUrl], function (err, rows, fields) {
       if (err) {
-        res.send('FAILURE');
+        res.json({ success: false });
       } else {
         var user = {
           id: userid,
-          name: req.body.name
+          name: req.body.name,
+          imgUrl: req.body.imgUrl
         };
         res.json({
           user: user,
-          status: 'SUCCESS'
+          success: true
         });
       }
     });
