@@ -25,6 +25,7 @@ module.exports = (app, connection ) => {
               token: token,
               name: rows[0].name,
               id: rows[0].id,
+              imgUrl: rows[0].imgUrl,
             });
           } else {
             res.json({success: false, message: 'Wrong password'})
