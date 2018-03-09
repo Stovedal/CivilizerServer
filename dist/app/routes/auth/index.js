@@ -26,7 +26,9 @@ module.exports = function (app, connection) {
           res.json({
             success: true,
             message: 'Successful login!',
-            token: token
+            token: token,
+            name: rows[0].name,
+            id: rows[0].id
           });
         } else {
           res.json({ success: false, message: 'Wrong password' });
