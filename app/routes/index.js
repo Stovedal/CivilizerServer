@@ -8,12 +8,13 @@ const jwt    = require('jsonwebtoken');
 export default ( app, connection ) => {
   app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.header("Access-Control-Allow-Headers", "Authorization, Origin, X-Requested-With, Content-Type, Accept");
     next();
   });
   auth(app, connection)
-  /*app.use((req, res, next) => {
-    var token = req.body.token || req.query.token || req.headers['x-access-token'];
+  app.use((req, res, next) => {
+    console.log(req.query)
+    var token = req.body.token || req.query.token || req.headers['token'];
     // decode token
     if (token) {
       jwt.verify(token, app.get('superSecret'), function(err, decoded) {
@@ -25,13 +26,12 @@ export default ( app, connection ) => {
         }
       });
     } else {
-
       return res.status(403).send({
           success: false,
           message: 'No token provided.'
       });
     }
-  })*/
+  })
   users( app, connection )
   civilizations( app, connection )
   scores( app, connection )

@@ -1,4 +1,5 @@
 import uuidv4 from 'uuid/v4'
+import moment from 'moment'
 
 module.exports = (app, connection ) => {
 
@@ -88,6 +89,41 @@ module.exports = (app, connection ) => {
         }
       }
     )
+  })
+
+  app.post('/scores', (req, res) => {
+    let gameid = uuidv4()
+    let timestamp = moment().format()
+    let error = false;
+    console.log(req.body)
+    if(req.body.scores.length<1){
+      req.body.scores.forEach((score) => {
+        connection.query(
+          "INSERT INTO scores (gameid, userid, civid, score, timestamp) VALUES (?, ?, ?, ?, ?)",
+          [gameid, score.userid, score.civid, score.score, timestamp],
+          (err, rows, fields) => {
+            if(err){
+              error = true;
+              res.json({
+                success:false,
+                message: 'Database says NO',
+              })
+            } else {
+              res.json({
+                success:true,
+                id: gameid,
+              })
+            }
+          }
+        )
+      })
+
+    } else {
+      res.json({
+        success:false,
+        message: 'Scorearray was empty',
+      })
+    }
   })
 
 }

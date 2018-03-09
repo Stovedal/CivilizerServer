@@ -5,6 +5,7 @@ const jwt    = require('jsonwebtoken');
 module.exports = (app, connection ) => {
 
   app.post('/auth/login', (req,res)=>{
+    console.log(req.body)
     connection.query(
       "SELECT * FROM users WHERE name=?",
       [req.body.name],

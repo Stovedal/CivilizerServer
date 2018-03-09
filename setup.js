@@ -78,15 +78,15 @@ const setupTables = function(){
       }
   })
 
-  connection.query("CREATE TABLE civilizations( id varchar(255) NOT NULL, civilization varchar(255) NOT NULL, leader varchar(255) , PRIMARY KEY (id) )", function(error, rows, fields){
+  connection.query("CREATE TABLE civilizations( id varchar(255) NOT NULL, civilization varchar(255) NOT NULL, leader varchar(255), leaderImg varchar(255), iconImg varchar(255) , PRIMARY KEY (id) )", function(error, rows, fields){
     if(error){
       console.log(error);
     } else {
       console.log("Setup civilizations-table");
       content.civilizations.map(function(civ){
         connection.query(
-          "INSERT INTO civilizations (id, civilization, leader) VALUES (?,?,?)",
-          [civ.id, civ.civilization, civ.leader],
+          "INSERT INTO civilizations (id, civilization, leader, leaderImg, iconImg) VALUES (?,?,?,?,?)",
+          [civ.id, civ.civilization, civ.leader, civ.leaderImg, civ.iconImg],
           function(err,rows,fields){
             console.log("civilizations populated with ", civ.civilization)
 

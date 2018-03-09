@@ -4,6 +4,10 @@ var _v = require('uuid/v4');
 
 var _v2 = _interopRequireDefault(_v);
 
+var _moment = require('moment');
+
+var _moment2 = _interopRequireDefault(_moment);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 module.exports = function (app, connection) {
@@ -75,6 +79,36 @@ module.exports = function (app, connection) {
         });
       }
     });
+  });
+
+  app.post('/scores', function (req, res) {
+    var gameid = (0, _v2.default)();
+    var timestamp = (0, _moment2.default)().format();
+    var error = false;
+    console.log(req.body);
+    if (req.body.scores.length < 1) {
+      req.body.scores.forEach(function (score) {
+        connection.query("INSERT INTO scores (gameid, userid, civid, score, timestamp) VALUES (?, ?, ?, ?, ?)", [gameid, score.userid, score.civid, score.score, timestamp], function (err, rows, fields) {
+          if (err) {
+            error = true;
+            res.json({
+              success: false,
+              message: 'Database says NO'
+            });
+          } else {
+            res.json({
+              success: true,
+              id: gameid
+            });
+          }
+        });
+      });
+    } else {
+      res.json({
+        success: false,
+        message: 'Scorearray was empty'
+      });
+    }
   });
 };
 
