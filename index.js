@@ -23,7 +23,7 @@ let connection = mysql.createConnection({
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cookieParser())
 app.use(morgan('dev'))
-app.set('superSecret', secret)
+app.set('superSecret', "Superdupersecret")
 
 connection.connect((err) => {
   if (err) {

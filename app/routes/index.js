@@ -13,7 +13,6 @@ export default ( app, connection ) => {
   });
   auth(app, connection)
   app.use((req, res, next) => {
-    console.log(req.query)
     var token = req.body.token || req.query.token || req.headers['token'];
     // decode token
     if (token) {

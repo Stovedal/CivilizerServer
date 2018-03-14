@@ -92,38 +92,27 @@ module.exports = (app, connection ) => {
   })
 
   app.post('/scores', (req, res) => {
-    let gameid = uuidv4()
-    let timestamp = moment().format()
-    let error = false;
-    console.log(req.body)
-    if(req.body.scores.length<1){
-      req.body.scores.forEach((score) => {
-        connection.query(
-          "INSERT INTO scores (gameid, userid, civid, score, timestamp) VALUES (?, ?, ?, ?, ?)",
-          [gameid, score.userid, score.civid, score.score, timestamp],
-          (err, rows, fields) => {
-            if(err){
-              error = true;
-              res.json({
-                success:false,
-                message: 'Database says NO',
-              })
-            } else {
-              res.json({
-                success:true,
-                id: gameid,
-              })
-            }
-          }
-        )
-      })
+    let score = req.body
+    console.log("SCORE INCOMING", req.body)
+    connection.query(
+      "INSERT INTO scores (gameid, userid, civid, score, timestamp) VALUES (?, ?, ?, ?, ?)",
+      [score.gameid, score.userid, score.civid, score.score, score.timestamp],
+      (err, rows, fields) => {
+        if(err){
+          error = true;
+          res.json({
+            success:false,
+            message: 'Database says NO',
+          })
+        } else {
+          res.json({
+            success:true,
+            id: score.gameid,
+          })
+        }
+      }
+    )
 
-    } else {
-      res.json({
-        success:false,
-        message: 'Scorearray was empty',
-      })
-    }
   })
 
 }

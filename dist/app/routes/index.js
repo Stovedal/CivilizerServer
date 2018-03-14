@@ -32,7 +32,6 @@ exports.default = function (app, connection) {
   });
   (0, _auth2.default)(app, connection);
   app.use(function (req, res, next) {
-    console.log(req.query);
     var token = req.body.token || req.query.token || req.headers['token'];
     // decode token
     if (token) {

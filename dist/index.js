@@ -46,7 +46,7 @@ var connection = _mysql2.default.createConnection({
 app.use(_bodyParser2.default.urlencoded({ extended: true }));
 app.use((0, _cookieParser2.default)());
 app.use((0, _morgan2.default)('dev'));
-app.set('superSecret', _config.secret);
+app.set('superSecret', "Superdupersecret");
 
 connection.connect(function (err) {
   if (err) {

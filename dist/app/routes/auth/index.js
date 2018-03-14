@@ -12,7 +12,6 @@ var jwt = require('jsonwebtoken');
 module.exports = function (app, connection) {
 
   app.post('/auth/login', function (req, res) {
-    console.log(req.body);
     connection.query("SELECT * FROM users WHERE name=?", [req.body.name], function (err, rows, fields) {
       if (err) {
         res.send({ success: false, message: 'Database says no' });
