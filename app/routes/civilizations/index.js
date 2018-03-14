@@ -20,4 +20,20 @@ module.exports = (app, connection ) => {
     )
   })
 
+  app.get('/civilizations/id', (req,res) => {
+    connection.query(
+      "SELECT * FROM civilizations WHERE id=?",
+      [req.query.id],
+      (err, rows, fields) => {
+        if(err){
+          res.json({ success: false })
+        } else {
+          res.json({
+            success: true,
+            civilization: rows,
+          });
+        }
+      }
+    )
+  })
 }

@@ -144,9 +144,7 @@ module.exports = (app, connection ) => {
         }
       }
     )
-
   })
-
 }
 
 const averageScore = (scoreArray) => {
