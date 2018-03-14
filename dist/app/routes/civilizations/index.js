@@ -21,4 +21,17 @@ module.exports = function (app, connection) {
       }
     });
   });
+
+  app.get('/civilizations/id', function (req, res) {
+    connection.query("SELECT * FROM civilizations WHERE id=?", [req.query.id], function (err, rows, fields) {
+      if (err) {
+        res.json({ success: false });
+      } else {
+        res.json({
+          success: true,
+          civilization: rows
+        });
+      }
+    });
+  });
 };

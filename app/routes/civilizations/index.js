@@ -13,7 +13,7 @@ module.exports = (app, connection ) => {
         } else {
           res.json({
             success: true,
-            civilizations: rows,
+            civilizations: rows[0],
           });
         }
       }

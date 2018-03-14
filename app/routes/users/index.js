@@ -31,7 +31,7 @@ module.exports = (app, connection ) => {
         } else {
           res.json({
             success: true,
-            user: rows
+            user: rows[0],
           });
         }
       }
