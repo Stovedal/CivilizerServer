@@ -13,7 +13,7 @@ module.exports = (app, connection ) => {
         } else {
           res.json({
             success: true,
-            civilizations: rows[0],
+            civilizations: rows,
           });
         }
       }
@@ -30,7 +30,7 @@ module.exports = (app, connection ) => {
         } else {
           res.json({
             success: true,
-            civilization: rows,
+            civilization: rows[0],
           });
         }
       }
