@@ -12,7 +12,7 @@ export default ( app, connection ) => {
     next();
   });
   auth(app, connection)
-  app.use((req, res, next) => {
+  /*app.use((req, res, next) => {
     var token = req.body.token || req.query.token || req.headers['token'];
     // decode token
     if (token) {
@@ -30,7 +30,7 @@ export default ( app, connection ) => {
           message: 'No token provided.'
       });
     }
-  })
+  })*/
   users( app, connection )
   civilizations( app, connection )
   scores( app, connection )

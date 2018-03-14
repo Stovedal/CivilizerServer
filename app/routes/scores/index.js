@@ -91,9 +91,41 @@ module.exports = (app, connection ) => {
     )
   })
 
+  app.get('/scores/games', (req,res) => {
+    connection.query(
+      'SELECT * FROM scores ORDER BY gameid',
+      (err, rows, fields) => {
+        if(err){
+          res.json({
+            success: false,
+            error: err
+          })
+        }
+        let scores = rows
+        connection.query(
+          'SELECT DISTINCT gameid FROM scores',
+          (err, rows, fields) => {
+            if(err){
+              res.json({
+                success: false,
+                error: err
+              })
+            } else {
+              let games = sortIntoGames(scores, rows)
+              res.json({
+                success: true,
+                games: games,
+              })
+            }
+          }
+        )
+
+      }
+    )
+  })
+
   app.post('/scores', (req, res) => {
     let score = req.body
-    console.log("SCORE INCOMING", req.body)
     connection.query(
       "INSERT INTO scores (gameid, userid, civid, score, timestamp) VALUES (?, ?, ?, ?, ?)",
       [score.gameid, score.userid, score.civid, score.score, score.timestamp],
@@ -127,4 +159,17 @@ const averageScore = (scoreArray) => {
   } else {
     return 0;
   }
+}
+
+const sortIntoGames = (scoreArray, gameIds) => {
+  let games = gameIds.map((gameId)=>{
+    let game = {}
+    game.id = gameId.gameId
+    game.scores = scoreArray.filter((e)=>{return e.gameid===gameId.gameid})
+    game.scores.sort((a,b) => { return a.score < b.score })
+    game.timestamp = game.scores[0].timestamp
+    return game
+  })
+  games.sort((a,b)=> {return moment(a.timestamp).isBefore(moment(b.timestamp))})
+  return games
 }

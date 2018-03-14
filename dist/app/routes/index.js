@@ -31,11 +31,11 @@ exports.default = function (app, connection) {
     next();
   });
   (0, _auth2.default)(app, connection);
-  app.use(function (req, res, next) {
+  /*app.use((req, res, next) => {
     var token = req.body.token || req.query.token || req.headers['token'];
     // decode token
     if (token) {
-      jwt.verify(token, app.get('superSecret'), function (err, decoded) {
+      jwt.verify(token, app.get('superSecret'), function(err, decoded) {
         if (err) {
           return res.json({ success: false, message: 'Failed to authenticate token.' });
         } else {
@@ -45,11 +45,11 @@ exports.default = function (app, connection) {
       });
     } else {
       return res.status(403).send({
-        success: false,
-        message: 'No token provided.'
+          success: false,
+          message: 'No token provided.'
       });
     }
-  });
+  })*/
   (0, _users2.default)(app, connection);
   (0, _civilizations2.default)(app, connection);
   (0, _scores2.default)(app, connection);

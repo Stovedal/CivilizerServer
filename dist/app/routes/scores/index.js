@@ -81,9 +81,34 @@ module.exports = function (app, connection) {
     });
   });
 
+  app.get('/scores/games', function (req, res) {
+    connection.query('SELECT * FROM scores ORDER BY gameid', function (err, rows, fields) {
+      if (err) {
+        res.json({
+          success: false,
+          error: err
+        });
+      }
+      var scores = rows;
+      connection.query('SELECT DISTINCT gameid FROM scores', function (err, rows, fields) {
+        if (err) {
+          res.json({
+            success: false,
+            error: err
+          });
+        } else {
+          var games = sortIntoGames(scores, rows);
+          res.json({
+            success: true,
+            games: games
+          });
+        }
+      });
+    });
+  });
+
   app.post('/scores', function (req, res) {
     var score = req.body;
-    console.log("SCORE INCOMING", req.body);
     connection.query("INSERT INTO scores (gameid, userid, civid, score, timestamp) VALUES (?, ?, ?, ?, ?)", [score.gameid, score.userid, score.civid, score.score, score.timestamp], function (err, rows, fields) {
       if (err) {
         error = true;
@@ -111,4 +136,23 @@ var averageScore = function averageScore(scoreArray) {
   } else {
     return 0;
   }
+};
+
+var sortIntoGames = function sortIntoGames(scoreArray, gameIds) {
+  var games = gameIds.map(function (gameId) {
+    var game = {};
+    game.id = gameId.gameId;
+    game.scores = scoreArray.filter(function (e) {
+      return e.gameid === gameId.gameid;
+    });
+    game.scores.sort(function (a, b) {
+      return a.score < b.score;
+    });
+    game.timestamp = game.scores[0].timestamp;
+    return game;
+  });
+  games.sort(function (a, b) {
+    return (0, _moment2.default)(a.timestamp).isBefore((0, _moment2.default)(b.timestamp));
+  });
+  return games;
 };
