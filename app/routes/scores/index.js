@@ -126,24 +126,30 @@ module.exports = (app, connection ) => {
 
   app.post('/scores', (req, res) => {
     let score = req.body
-    connection.query(
-      "INSERT INTO scores (gameid, userid, civid, score, timestamp) VALUES (?, ?, ?, ?, ?)",
-      [score.gameid, score.userid, score.civid, score.score, score.timestamp],
-      (err, rows, fields) => {
-        if(err){
-          error = true;
-          res.json({
-            success:false,
-            message: 'Database says NO',
-          })
-        } else {
-          res.json({
-            success:true,
-            id: score.gameid,
-          })
+
+    if( score.civid !== '' ){
+      connection.query(
+        "INSERT INTO scores (gameid, userid, civid, score, timestamp) VALUES (?, ?, ?, ?, ?)",
+        [score.gameid, score.userid, score.civid, score.score, score.timestamp],
+        (err, rows, fields) => {
+          if(err){
+            error = true;
+            res.json({
+              success:false,
+              message: 'Database says NO',
+            })
+          } else {
+            res.json({
+              success:true,
+              id: score.gameid,
+            })
+          }
         }
-      }
-    )
+      )
+    } else {
+      res.json({success: false, message: score})
+    }
+
   })
 }
 
