@@ -27,5 +27,5 @@ module.exports = [{
   id: uuidv4(),
   name: "Linnea",
   password: "password",
-  imgUrl: "https://scontent-arn2-1.xx.fbcdn.net/v/t31.0-8/13246263_875018199291323_912633572849280541_o.jpg?oh=1fdfd868784a1f7cc838c8064e3434a9&oe=5B03B338"
+  imgUrl: "https://scontent-arn2-1.xx.fbcdn.net/v/t1.0-9/14045568_1219695071394877_1085384085383897196_n.jpg?oh=4106d0779f3592dc04c78842ad5f04db&oe=5B4D5C76"
 }];

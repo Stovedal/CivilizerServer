@@ -29,7 +29,7 @@ module.exports = function (app, connection) {
       } else {
         res.json({
           success: true,
-          civilization: rows
+          civilization: rows[0]
         });
       }
     });
